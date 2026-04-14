@@ -9,23 +9,70 @@
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <style>
+
 body {
-  background:#0a0a0a;
-  color:white;
-  font-family:sans-serif;
+  background: radial-gradient(circle at top, #1a1a1a, #000);
+  color: white;
+  font-family: sans-serif;
 }
 
-.card {
-  transition:0.3s;
+/* GLOW BACKGROUND EFFECT */
+body::before {
+  content: "";
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  background: #f97316;
+  filter: blur(150px);
+  opacity: 0.2;
+  top: -100px;
+  left: -100px;
+  z-index: -1;
 }
+
+/* LOGO */
+.logo {
+  width: 150px;
+  margin: auto;
+  animation: pulse 3s infinite;
+  filter: drop-shadow(0 0 12px rgba(255,115,0,0.5));
+}
+
+@keyframes pulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* CARDS */
+.card {
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: 0.3s;
+}
+
 .card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-8px) scale(1.02);
+  border-color: #f97316;
+  box-shadow: 0 0 20px rgba(249,115,22,0.3);
 }
 
 .selected {
-  outline:3px solid #f97316;
+  border-color: #f97316;
+  box-shadow: 0 0 25px rgba(249,115,22,0.6);
 }
 
+/* BUTTON */
+button {
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #f97316;
+  color: white;
+}
+
+/* FADE */
 .fade {
   animation: fadeIn 0.5s ease forwards;
 }
@@ -36,67 +83,63 @@ body {
 }
 
 img {
-  object-fit:cover;
+  object-fit: cover;
 }
 
-/* LOGO POLISH */
-.logo {
-  width:140px;
-  margin:auto;
-  filter: drop-shadow(0 0 8px rgba(255,255,255,0.15));
-}
 </style>
 </head>
 
 <body class="p-6">
 
 <!-- HERO -->
-<section class="text-center py-20">
+<section class="text-center py-24">
 
 <img src="DTS (white, no bg).png" class="logo mb-6">
 
-<h1 class="text-5xl md:text-6xl font-bold">DTS</h1>
+<h1 class="text-6xl font-bold tracking-wide">
+DTS
+</h1>
 
-<p class="text-gray-400 mt-4">
-Destined To Succeed — Basketball Photography
+<p class="text-gray-400 mt-4 text-lg">
+Basketball Photography That Captures The Moment
 </p>
 
 </section>
 
 <!-- PACKAGES -->
-<section id="packages" class="grid md:grid-cols-3 gap-6">
+<section class="grid md:grid-cols-3 gap-6">
 
-<div class="card p-6 bg-gray-900 rounded cursor-pointer"
+<div class="card p-6 rounded cursor-pointer"
 onclick="selectPackage('Basic','50 AED', this)">
-<h2 class="text-xl font-bold mb-2">🥉 Basic</h2>
-<ul class="text-sm text-gray-400 space-y-1">
+<h2 class="text-xl font-bold mb-2 text-orange-400">🥉 Basic</h2>
+<ul class="text-sm text-gray-300 space-y-1">
 <li>Edited photos</li>
 <li>Quick moments</li>
-<li>Best shots selected by photographer</li>
-<li>Delivery within a few days</li>
+<li>Photographer selected shots</li>
+<li>Fast delivery</li>
 </ul>
 <p class="mt-4 font-bold">50 AED</p>
 </div>
 
-<div class="card p-6 bg-gray-900 rounded cursor-pointer"
+<div class="card p-6 rounded cursor-pointer"
 onclick="selectPackage('Standard','120 AED', this)">
-<h2 class="text-xl font-bold mb-2">🥈 Standard</h2>
-<ul class="text-sm text-gray-400 space-y-1">
+<h2 class="text-xl font-bold mb-2 text-orange-400">🥈 Standard</h2>
+<ul class="text-sm text-gray-300 space-y-1">
 <li>More edited photos</li>
 <li>Full game coverage</li>
-<li>Best shots selected by photographer</li>
+<li>Photographer selected shots</li>
 <li>Faster delivery</li>
 </ul>
 <p class="mt-4 font-bold">120 AED</p>
 </div>
 
-<div class="card p-6 bg-gray-900 rounded cursor-pointer"
+<div class="card p-6 rounded cursor-pointer"
 onclick="selectPackage('Premium','200 AED', this)">
-<h2 class="text-xl font-bold mb-2">🥇 Premium</h2>
-<ul class="text-sm text-gray-400 space-y-1">
+<h2 class="text-xl font-bold mb-2 text-orange-400">🥇 Premium</h2>
+<ul class="text-sm text-gray-300 space-y-1">
 <li>Maximum coverage</li>
-<li>Game + highlights</li>
-<li>You choose your favorite shots</li>
+<li>Highlights included</li>
+<li>You choose your favorites</li>
 <li>Priority delivery</li>
 </ul>
 <p class="mt-4 font-bold">200 AED</p>
@@ -104,84 +147,58 @@ onclick="selectPackage('Premium','200 AED', this)">
 
 </section>
 
-<!-- SELECTED PACKAGE -->
+<!-- SELECTED -->
 <div id="selectedBox"
-class="mt-10 p-4 bg-gray-900 rounded hidden fade text-center">
-<span class="text-gray-400">Selected Package:</span>
-<span id="selectedText" class="font-bold ml-2"></span>
+class="mt-10 p-4 rounded hidden fade text-center border border-orange-500">
+<span class="text-gray-400">Selected:</span>
+<span id="selectedText" class="font-bold ml-2 text-orange-400"></span>
 </div>
 
 <!-- PORTFOLIO -->
-<section class="mt-20">
+<section class="mt-24">
 
-<h2 class="text-3xl mb-6 text-center">Portfolio</h2>
+<h2 class="text-3xl mb-6 text-center text-orange-400">
+Portfolio
+</h2>
 
 <div class="grid md:grid-cols-3 gap-4">
 
-<img src="photo1.jpg" class="rounded h-48 w-full">
-<img src="photo2.jpg" class="rounded h-48 w-full">
-<img src="photo3.jpg" class="rounded h-48 w-full">
+<img src="IMG_1788.JPG" class="rounded h-52 w-full hover:scale-105 transition">
+<img src="IMG_1789.JPG" class="rounded h-52 w-full hover:scale-105 transition">
+<img src="IMG_1792.JPG" class="rounded h-52 w-full hover:scale-105 transition">
+
+</div>
 
 </div>
 
 </section>
 
-<!-- TRUST -->
-<section class="mt-20 text-center">
+<!-- FORM -->
+<section class="mt-24 max-w-xl mx-auto">
 
-<h2 class="text-2xl mb-4">Why Choose DTS?</h2>
-
-<p class="text-gray-400 max-w-xl mx-auto">
-Focused on basketball photography, capturing fast action and key moments.
-Affordable pricing with quick and reliable delivery.
-</p>
-
-</section>
-
-<!-- BOOKING FORM -->
-<section class="mt-20 max-w-xl mx-auto">
-
-<h2 class="text-3xl mb-6">Book Now</h2>
+<h2 class="text-3xl mb-6 text-center text-orange-400">
+Book Now
+</h2>
 
 <form onsubmit="handleSubmit(event)" class="space-y-4">
 
 <input id="name" placeholder="Full Name" required
-class="w-full p-3 bg-gray-800 rounded">
+class="w-full p-3 bg-black border border-gray-700 rounded">
 
 <input id="email" type="email" placeholder="Email" required
-class="w-full p-3 bg-gray-800 rounded">
+class="w-full p-3 bg-black border border-gray-700 rounded">
 
 <input id="phone" placeholder="Phone Number" required
-class="w-full p-3 bg-gray-800 rounded">
+class="w-full p-3 bg-black border border-gray-700 rounded">
 
-<input id="team" placeholder="Team Name"
-class="w-full p-3 bg-gray-800 rounded">
-
-<input id="venue" placeholder="Court Name / Location" required
-class="w-full p-3 bg-gray-800 rounded">
-
-<input id="maps"
-placeholder="Google Maps link (helps me find the court easily)"
-class="w-full p-3 bg-gray-800 rounded">
-
-<select id="type" class="w-full p-3 bg-gray-800 rounded">
-<option>Indoor</option>
-<option>Outdoor</option>
-</select>
+<input id="venue" placeholder="Court Location" required
+class="w-full p-3 bg-black border border-gray-700 rounded">
 
 <input id="date" type="date" required
-class="w-full p-3 bg-gray-800 rounded">
+class="w-full p-3 bg-black border border-gray-700 rounded">
 
 <input id="time" type="time" required
-class="w-full p-3 bg-gray-800 rounded">
-
-<input id="jersey"
-placeholder="Team jersey color (helps photography)"
-class="w-full p-3 bg-gray-800 rounded">
-
-<textarea id="notes"
-placeholder="Extra details"
-class="w-full p-3 bg-gray-800 rounded"></textarea>
+class="w-full p-3 bg-black border border-gray-700 rounded">
 
 <button id="submitBtn"
 class="bg-white text-black px-6 py-3 w-full rounded">
@@ -229,7 +246,7 @@ function handleSubmit(e){
 e.preventDefault();
 
 if(!selectedPackage){
-showStatus("Please select a package first", false);
+showStatus("Select a package first", false);
 return;
 }
 
@@ -242,14 +259,9 @@ name: document.getElementById('name').value,
 email: document.getElementById('email').value,
 phone: document.getElementById('phone').value,
 package: selectedPackage + " - " + selectedPrice,
-team: document.getElementById('team').value,
 venue: document.getElementById('venue').value,
-maps: document.getElementById('maps').value,
-type: document.getElementById('type').value,
 date: document.getElementById('date').value,
-time: document.getElementById('time').value,
-jersey: document.getElementById('jersey').value,
-notes: document.getElementById('notes').value
+time: document.getElementById('time').value
 };
 
 showStatus("Sending booking...");
@@ -259,8 +271,7 @@ emailjs.send("service_px4si25","template_tct78xa",data),
 emailjs.send("service_px4si25","template_7hbr89o",data)
 ])
 .then(() => {
-
-showStatus("✅ Booking submitted! Check your email.", true);
+showStatus("✅ Booking submitted!", true);
 
 document.querySelector("form").reset();
 
@@ -270,19 +281,15 @@ document.querySelectorAll('.card')
 document.getElementById('selectedBox')
 .classList.add('hidden');
 
-selectedPackage = "";
-
 btn.disabled = false;
 btn.textContent = "Submit Booking";
 
 })
 .catch(() => {
-
-showStatus("❌ Error sending booking. Try again.", false);
+showStatus("❌ Error. Try again.", false);
 
 btn.disabled = false;
 btn.textContent = "Submit Booking";
-
 });
 }
 
