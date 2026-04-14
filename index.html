@@ -4,16 +4,47 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DTS - Destined To Succeed</title>
+
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <style>
-body { background:#0a0a0a; color:white; font-family:sans-serif; }
-.card { transition:0.3s; }
-.card:hover { transform: translateY(-6px); }
-.selected { outline:3px solid #f97316; }
-.fade { animation: fadeIn 0.5s ease forwards; }
-@keyframes fadeIn { from {opacity:0} to {opacity:1} }
+body {
+  background:#0a0a0a;
+  color:white;
+  font-family:sans-serif;
+}
+
+.card {
+  transition:0.3s;
+}
+.card:hover {
+  transform: translateY(-6px);
+}
+
+.selected {
+  outline:3px solid #f97316;
+}
+
+.fade {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {opacity:0}
+  to {opacity:1}
+}
+
+img {
+  object-fit:cover;
+}
+
+/* LOGO POLISH */
+.logo {
+  width:140px;
+  margin:auto;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.15));
+}
 </style>
 </head>
 
@@ -21,83 +52,144 @@ body { background:#0a0a0a; color:white; font-family:sans-serif; }
 
 <!-- HERO -->
 <section class="text-center py-20">
-<h1 class="text-6xl font-bold">DTS</h1>
-<p class="text-gray-400 mt-4">Destined To Succeed — Basketball Photography</p>
+
+<img src="DTS (white, no bg).png" class="logo mb-6">
+
+<h1 class="text-5xl md:text-6xl font-bold">DTS</h1>
+
+<p class="text-gray-400 mt-4">
+Destined To Succeed — Basketball Photography
+</p>
+
 </section>
 
 <!-- PACKAGES -->
 <section id="packages" class="grid md:grid-cols-3 gap-6">
 
-<div class="card p-6 bg-gray-900 rounded cursor-pointer" onclick="selectPackage('Basic','50 AED', this)">
+<div class="card p-6 bg-gray-900 rounded cursor-pointer"
+onclick="selectPackage('Basic','50 AED', this)">
 <h2 class="text-xl font-bold mb-2">🥉 Basic</h2>
 <ul class="text-sm text-gray-400 space-y-1">
-<li>3–5 edited photos</li>
+<li>Edited photos</li>
 <li>Quick moments</li>
-<li>Chosen by ME </li>
-<li>3–5 days delivery</li>
+<li>Best shots selected by photographer</li>
+<li>Delivery within a few days</li>
 </ul>
 <p class="mt-4 font-bold">50 AED</p>
 </div>
 
-<div class="card p-6 bg-gray-900 rounded cursor-pointer" onclick="selectPackage('Standard','100 AED', this)">
+<div class="card p-6 bg-gray-900 rounded cursor-pointer"
+onclick="selectPackage('Standard','120 AED', this)">
 <h2 class="text-xl font-bold mb-2">🥈 Standard</h2>
 <ul class="text-sm text-gray-400 space-y-1">
-<li>8–10 premium photos</li>
+<li>More edited photos</li>
 <li>Full game coverage</li>
-<li>Chosen by ME</li>
-<li>2–3 days delivery</li>
+<li>Best shots selected by photographer</li>
+<li>Faster delivery</li>
 </ul>
-<p class="mt-4 font-bold">100 AED</p>
+<p class="mt-4 font-bold">120 AED</p>
 </div>
 
-<div class="card p-6 bg-gray-900 rounded cursor-pointer" onclick="selectPackage('Premium','170 AED', this)">
+<div class="card p-6 bg-gray-900 rounded cursor-pointer"
+onclick="selectPackage('Premium','200 AED', this)">
 <h2 class="text-xl font-bold mb-2">🥇 Premium</h2>
 <ul class="text-sm text-gray-400 space-y-1">
-<li>15–20 photos</li>
-<li>Full game + highlights</li>
-<li>Chosen by YOU</li>
-<li>24–48h delivery</li>
+<li>Maximum coverage</li>
+<li>Game + highlights</li>
+<li>You choose your favorite shots</li>
+<li>Priority delivery</li>
 </ul>
-<p class="mt-4 font-bold">170 AED</p>
+<p class="mt-4 font-bold">200 AED</p>
 </div>
 
 </section>
 
-<!-- SELECTED PACKAGE DISPLAY -->
-<div id="selectedBox" class="mt-10 p-4 bg-gray-900 rounded hidden fade">
+<!-- SELECTED PACKAGE -->
+<div id="selectedBox"
+class="mt-10 p-4 bg-gray-900 rounded hidden fade text-center">
 <span class="text-gray-400">Selected Package:</span>
 <span id="selectedText" class="font-bold ml-2"></span>
 </div>
 
-<!-- FORM -->
+<!-- PORTFOLIO -->
+<section class="mt-20">
+
+<h2 class="text-3xl mb-6 text-center">Portfolio</h2>
+
+<div class="grid md:grid-cols-3 gap-4">
+
+<img src="photo1.jpg" class="rounded h-48 w-full">
+<img src="photo2.jpg" class="rounded h-48 w-full">
+<img src="photo3.jpg" class="rounded h-48 w-full">
+
+</div>
+
+</section>
+
+<!-- TRUST -->
+<section class="mt-20 text-center">
+
+<h2 class="text-2xl mb-4">Why Choose DTS?</h2>
+
+<p class="text-gray-400 max-w-xl mx-auto">
+Focused on basketball photography, capturing fast action and key moments.
+Affordable pricing with quick and reliable delivery.
+</p>
+
+</section>
+
+<!-- BOOKING FORM -->
 <section class="mt-20 max-w-xl mx-auto">
+
 <h2 class="text-3xl mb-6">Book Now</h2>
 
 <form onsubmit="handleSubmit(event)" class="space-y-4">
-<input id="name" placeholder="Full Name" required class="w-full p-3 bg-gray-800 rounded">
-<input id="email" placeholder="Email" required class="w-full p-3 bg-gray-800 rounded">
-<input id="phone" placeholder="Phone Number" required class="w-full p-3 bg-gray-800 rounded">
 
-<input id="team" placeholder="Team Name" class="w-full p-3 bg-gray-800 rounded">
-<input id="venue" placeholder="Court Name / Location" required class="w-full p-3 bg-gray-800 rounded">
-<input id="maps" placeholder="Google Maps Link (VERY IMPORTANT)" class="w-full p-3 bg-gray-800 rounded">
+<input id="name" placeholder="Full Name" required
+class="w-full p-3 bg-gray-800 rounded">
+
+<input id="email" type="email" placeholder="Email" required
+class="w-full p-3 bg-gray-800 rounded">
+
+<input id="phone" placeholder="Phone Number" required
+class="w-full p-3 bg-gray-800 rounded">
+
+<input id="team" placeholder="Team Name"
+class="w-full p-3 bg-gray-800 rounded">
+
+<input id="venue" placeholder="Court Name / Location" required
+class="w-full p-3 bg-gray-800 rounded">
+
+<input id="maps"
+placeholder="Google Maps link (helps me find the court easily)"
+class="w-full p-3 bg-gray-800 rounded">
 
 <select id="type" class="w-full p-3 bg-gray-800 rounded">
 <option>Indoor</option>
 <option>Outdoor</option>
 </select>
 
-<input id="date" type="date" required class="w-full p-3 bg-gray-800 rounded">
-<input id="time" type="time" required class="w-full p-3 bg-gray-800 rounded">
+<input id="date" type="date" required
+class="w-full p-3 bg-gray-800 rounded">
 
-<input id="jersey" placeholder="Team Jersey Color (helps photography)" class="w-full p-3 bg-gray-800 rounded">
+<input id="time" type="time" required
+class="w-full p-3 bg-gray-800 rounded">
 
-<textarea id="notes" placeholder="Extra Details" class="w-full p-3 bg-gray-800 rounded"></textarea>
+<input id="jersey"
+placeholder="Team jersey color (helps photography)"
+class="w-full p-3 bg-gray-800 rounded">
 
-<button class="bg-white text-black px-6 py-3 w-full rounded">Submit Booking</button>
+<textarea id="notes"
+placeholder="Extra details"
+class="w-full p-3 bg-gray-800 rounded"></textarea>
+
+<button id="submitBtn"
+class="bg-white text-black px-6 py-3 w-full rounded">
+Submit Booking
+</button>
+
 </form>
 
-<!-- STATUS MESSAGE -->
 <div id="status" class="mt-6 text-center hidden"></div>
 
 </section>
@@ -109,18 +201,20 @@ emailjs.init("y2iWEQIPprznB98PL");
 let selectedPackage = "";
 let selectedPrice = "";
 
-function selectPackage(name, price, el) {
+function selectPackage(name, price, el){
 selectedPackage = name;
 selectedPrice = price;
 
-document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+document.querySelectorAll('.card')
+.forEach(c => c.classList.remove('selected'));
+
 el.classList.add('selected');
 
-const box = document.getElementById('selectedBox');
-box.classList.remove('hidden');
+document.getElementById('selectedBox')
+.classList.remove('hidden');
 
-const text = document.getElementById('selectedText');
-text.textContent = name + " - " + price;
+document.getElementById('selectedText')
+.textContent = name + " - " + price;
 }
 
 function showStatus(message, success=true){
@@ -131,13 +225,17 @@ status.style.color = success ? '#22c55e' : '#ef4444';
 status.textContent = message;
 }
 
-function handleSubmit(e) {
+function handleSubmit(e){
 e.preventDefault();
 
 if(!selectedPackage){
 showStatus("Please select a package first", false);
 return;
 }
+
+const btn = document.getElementById('submitBtn');
+btn.disabled = true;
+btn.textContent = "Sending...";
 
 const data = {
 name: document.getElementById('name').value,
@@ -154,20 +252,37 @@ jersey: document.getElementById('jersey').value,
 notes: document.getElementById('notes').value
 };
 
-showStatus("Sending booking...", true);
+showStatus("Sending booking...");
 
 Promise.all([
 emailjs.send("service_px4si25","template_tct78xa",data),
 emailjs.send("service_px4si25","template_7hbr89o",data)
 ])
 .then(() => {
+
 showStatus("✅ Booking submitted! Check your email.", true);
+
 document.querySelector("form").reset();
-document.getElementById('selectedBox').classList.add('hidden');
+
+document.querySelectorAll('.card')
+.forEach(c => c.classList.remove('selected'));
+
+document.getElementById('selectedBox')
+.classList.add('hidden');
+
 selectedPackage = "";
+
+btn.disabled = false;
+btn.textContent = "Submit Booking";
+
 })
 .catch(() => {
+
 showStatus("❌ Error sending booking. Try again.", false);
+
+btn.disabled = false;
+btn.textContent = "Submit Booking";
+
 });
 }
 
