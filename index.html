@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DTS - Destined To Succeed</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body { background:#0a0a0a; color:white; font-family:sans-serif; }
+</style>
+</head>
+
+<body class="p-6">
+
+<h1 class="text-4xl font-bold mb-4">DTS - Destined To Succeed</h1>
+<p class="mb-6 text-gray-400">Book your basketball photography session.</p>
+
+<!-- BOOKING FORM -->
+<form action="https://formsubmit.co/YOUR_EMAIL@gmail.com" method="POST" class="space-y-4">
+
+<input type="hidden" name="_subject" value="🔥 New DTS Booking">
+<input type="hidden" name="_captcha" value="false">
+<input type="hidden" name="_autoresponse" value="Your booking was received! We will confirm shortly.">
+
+<input name="Name" placeholder="Full Name" required class="w-full p-3 bg-black border">
+<input name="Email" type="email" placeholder="Email" required class="w-full p-3 bg-black border">
+<input name="Phone" placeholder="Phone" required class="w-full p-3 bg-black border">
+
+<select name="Package" class="w-full p-3 bg-black border">
+<option>Basic - 25 AED</option>
+<option>Standard - 60 AED</option>
+<option>Premium - 120 AED</option>
+</select>
+
+<input type="date" name="Date" required class="w-full p-3 bg-black border">
+<input type="time" name="Time" required class="w-full p-3 bg-black border">
+
+<input name="Location" placeholder="Court / Location" required class="w-full p-3 bg-black border">
+
+<textarea name="Notes" placeholder="Extra details" class="w-full p-3 bg-black border"></textarea>
+
+<button class="w-full p-3 bg-white text-black font-bold">Submit Booking</button>
+
+</form>
+
+<!-- ADMIN BUTTON -->
+<button onclick="showLogin()" style="margin-top:40px;opacity:0.2;">admin</button>
+
+<!-- LOGIN -->
+<div id="login" style="display:none;position:fixed;inset:0;background:black;align-items:center;justify-content:center;">
+<div style="background:#111;padding:20px;">
+<input id="pass" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+</div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dash" style="display:none;position:fixed;inset:0;background:#000;color:white;padding:20px;overflow:auto;">
+
+<h2>DTS Dashboard</h2>
+
+<textarea id="input" placeholder="Paste booking here..." style="width:100%;height:100px;"></textarea>
+
+<br><br>
+
+<button onclick="email()">Email</button>
+<button onclick="whatsapp()">WhatsApp</button>
+<button onclick="summary()">Summary</button>
+
+<pre id="out"></pre>
+
+<button onclick="closeDash()">Close</button>
+
+</div>
+
+<script>
+function showLogin(){document.getElementById('login').style.display='flex';}
+function login(){
+if(document.getElementById('pass').value==="DTS2026"){
+document.getElementById('login').style.display='none';
+document.getElementById('dash').style.display='block';
+}else{alert("Wrong password");}
+}
+function closeDash(){document.getElementById('dash').style.display='none';}
+
+function parse(t){
+return {
+name:t.split(" ")[0],
+package:t.includes("Premium")?"Premium":t.includes("Standard")?"Standard":"Basic",
+time:(t.match(/\d+ ?(AM|PM|am|pm)/)||[""])[0],
+location:t.split("-").pop()
+};
+}
+
+function email(){
+let d=parse(document.getElementById('input').value);
+document.getElementById('out').textContent=
+`Hey ${d.name},
+
+Your shoot is confirmed.
+
+${d.package}
+${d.time}
+${d.location}
+
+– DTS`;
+}
+
+function whatsapp(){
+let d=parse(document.getElementById('input').value);
+document.getElementById('out').textContent=
+`Hey ${d.name}! Your shoot is confirmed 🔥
+
+${d.location} at ${d.time}`;
+}
+
+function summary(){
+let d=parse(document.getElementById('input').value);
+document.getElementById('out').textContent=
+JSON.stringify(d,null,2);
+}
+</script>
+
+</body>
+</html>
