@@ -4,123 +4,170 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DTS - Destined To Succeed</title>
-
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <style>
 body { background:#0a0a0a; color:white; font-family:sans-serif; }
+.card { transition:0.3s; }
+.card:hover { transform: translateY(-6px); }
+.selected { outline:3px solid #f97316; }
+.fade { animation: fadeIn 0.5s ease forwards; }
+@keyframes fadeIn { from {opacity:0} to {opacity:1} }
 </style>
 </head>
 
 <body class="p-6">
 
-<h1 class="text-4xl font-bold mb-4">DTS - Destined To Succeed</h1>
-<p class="mb-6 text-gray-400">Book your basketball photography session.</p>
+<!-- HERO -->
+<section class="text-center py-20">
+<h1 class="text-6xl font-bold">DTS</h1>
+<p class="text-gray-400 mt-4">Destined To Succeed — Basketball Photography</p>
+</section>
 
-<!-- BOOKING FORM -->
-<form action="https://formsubmit.co/YOUR_EMAIL@gmail.com" method="POST" class="space-y-4">
+<!-- PACKAGES -->
+<section id="packages" class="grid md:grid-cols-3 gap-6">
 
-<input type="hidden" name="_subject" value="🔥 New DTS Booking">
-<input type="hidden" name="_captcha" value="false">
-<input type="hidden" name="_autoresponse" value="Your booking was received! We will confirm shortly.">
+<div class="card p-6 bg-gray-900 rounded cursor-pointer" onclick="selectPackage('Basic','25 AED', this)">
+<h2 class="text-xl font-bold mb-2">🥉 Basic</h2>
+<ul class="text-sm text-gray-400 space-y-1">
+<li>3–5 edited photos</li>
+<li>Quick moments</li>
+<li>3–5 days delivery</li>
+</ul>
+<p class="mt-4 font-bold">25 AED</p>
+</div>
 
-<input name="Name" placeholder="Full Name" required class="w-full p-3 bg-black border">
-<input name="Email" type="email" placeholder="Email" required class="w-full p-3 bg-black border">
-<input name="Phone" placeholder="Phone" required class="w-full p-3 bg-black border">
+<div class="card p-6 bg-gray-900 rounded cursor-pointer" onclick="selectPackage('Standard','60 AED', this)">
+<h2 class="text-xl font-bold mb-2">🥈 Standard</h2>
+<ul class="text-sm text-gray-400 space-y-1">
+<li>8–10 premium photos</li>
+<li>Full game coverage</li>
+<li>2–3 days delivery</li>
+</ul>
+<p class="mt-4 font-bold">60 AED</p>
+</div>
 
-<select name="Package" class="w-full p-3 bg-black border">
-<option>Basic - 25 AED</option>
-<option>Standard - 60 AED</option>
-<option>Premium - 120 AED</option>
+<div class="card p-6 bg-gray-900 rounded cursor-pointer" onclick="selectPackage('Premium','120 AED', this)">
+<h2 class="text-xl font-bold mb-2">🥇 Premium</h2>
+<ul class="text-sm text-gray-400 space-y-1">
+<li>15–20 photos</li>
+<li>Full game + highlights</li>
+<li>24–48h delivery</li>
+</ul>
+<p class="mt-4 font-bold">120 AED</p>
+</div>
+
+</section>
+
+<!-- SELECTED PACKAGE DISPLAY -->
+<div id="selectedBox" class="mt-10 p-4 bg-gray-900 rounded hidden fade">
+<span class="text-gray-400">Selected Package:</span>
+<span id="selectedText" class="font-bold ml-2"></span>
+</div>
+
+<!-- FORM -->
+<section class="mt-20 max-w-xl mx-auto">
+<h2 class="text-3xl mb-6">Book Now</h2>
+
+<form onsubmit="handleSubmit(event)" class="space-y-4">
+<input id="name" placeholder="Full Name" required class="w-full p-3 bg-gray-800 rounded">
+<input id="email" placeholder="Email" required class="w-full p-3 bg-gray-800 rounded">
+<input id="phone" placeholder="Phone Number" required class="w-full p-3 bg-gray-800 rounded">
+
+<input id="team" placeholder="Team Name" class="w-full p-3 bg-gray-800 rounded">
+<input id="venue" placeholder="Court Name / Location" required class="w-full p-3 bg-gray-800 rounded">
+<input id="maps" placeholder="Google Maps Link (VERY IMPORTANT)" class="w-full p-3 bg-gray-800 rounded">
+
+<select id="type" class="w-full p-3 bg-gray-800 rounded">
+<option>Indoor</option>
+<option>Outdoor</option>
 </select>
 
-<input type="date" name="Date" required class="w-full p-3 bg-black border">
-<input type="time" name="Time" required class="w-full p-3 bg-black border">
+<input id="date" type="date" required class="w-full p-3 bg-gray-800 rounded">
+<input id="time" type="time" required class="w-full p-3 bg-gray-800 rounded">
 
-<input name="Location" placeholder="Court / Location" required class="w-full p-3 bg-black border">
+<input id="jersey" placeholder="Team Jersey Color (helps photography)" class="w-full p-3 bg-gray-800 rounded">
 
-<textarea name="Notes" placeholder="Extra details" class="w-full p-3 bg-black border"></textarea>
+<textarea id="notes" placeholder="Extra Details" class="w-full p-3 bg-gray-800 rounded"></textarea>
 
-<button class="w-full p-3 bg-white text-black font-bold">Submit Booking</button>
-
+<button class="bg-white text-black px-6 py-3 w-full rounded">Submit Booking</button>
 </form>
 
-<!-- ADMIN BUTTON -->
-<button onclick="showLogin()" style="margin-top:40px;opacity:0.2;">admin</button>
+<!-- STATUS MESSAGE -->
+<div id="status" class="mt-6 text-center hidden"></div>
 
-<!-- LOGIN -->
-<div id="login" style="display:none;position:fixed;inset:0;background:black;align-items:center;justify-content:center;">
-<div style="background:#111;padding:20px;">
-<input id="pass" type="password" placeholder="Password">
-<button onclick="login()">Login</button>
-</div>
-</div>
-
-<!-- DASHBOARD -->
-<div id="dash" style="display:none;position:fixed;inset:0;background:#000;color:white;padding:20px;overflow:auto;">
-
-<h2>DTS Dashboard</h2>
-
-<textarea id="input" placeholder="Paste booking here..." style="width:100%;height:100px;"></textarea>
-
-<br><br>
-
-<button onclick="email()">Email</button>
-<button onclick="whatsapp()">WhatsApp</button>
-<button onclick="summary()">Summary</button>
-
-<pre id="out"></pre>
-
-<button onclick="closeDash()">Close</button>
-
-</div>
+</section>
 
 <script>
-function showLogin(){document.getElementById('login').style.display='flex';}
-function login(){
-if(document.getElementById('pass').value==="DTS2026"){
-document.getElementById('login').style.display='none';
-document.getElementById('dash').style.display='block';
-}else{alert("Wrong password");}
-}
-function closeDash(){document.getElementById('dash').style.display='none';}
 
-function parse(t){
-return {
-name:t.split(" ")[0],
-package:t.includes("Premium")?"Premium":t.includes("Standard")?"Standard":"Basic",
-time:(t.match(/\d+ ?(AM|PM|am|pm)/)||[""])[0],
-location:t.split("-").pop()
+emailjs.init("y2iWEQIPprznB98PL");
+
+let selectedPackage = "";
+let selectedPrice = "";
+
+function selectPackage(name, price, el) {
+selectedPackage = name;
+selectedPrice = price;
+
+document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+el.classList.add('selected');
+
+const box = document.getElementById('selectedBox');
+box.classList.remove('hidden');
+
+const text = document.getElementById('selectedText');
+text.textContent = name + " - " + price;
+}
+
+function showStatus(message, success=true){
+const status = document.getElementById('status');
+status.classList.remove('hidden');
+status.classList.add('fade');
+status.style.color = success ? '#22c55e' : '#ef4444';
+status.textContent = message;
+}
+
+function handleSubmit(e) {
+e.preventDefault();
+
+if(!selectedPackage){
+showStatus("Please select a package first", false);
+return;
+}
+
+const data = {
+name: document.getElementById('name').value,
+email: document.getElementById('email').value,
+phone: document.getElementById('phone').value,
+package: selectedPackage + " - " + selectedPrice,
+team: document.getElementById('team').value,
+venue: document.getElementById('venue').value,
+maps: document.getElementById('maps').value,
+type: document.getElementById('type').value,
+date: document.getElementById('date').value,
+time: document.getElementById('time').value,
+jersey: document.getElementById('jersey').value,
+notes: document.getElementById('notes').value
 };
+
+showStatus("Sending booking...", true);
+
+Promise.all([
+emailjs.send("service_px4si25","template_tct78xa",data),
+emailjs.send("service_px4si25","template_7hbr89o",data)
+])
+.then(() => {
+showStatus("✅ Booking submitted! Check your email.", true);
+document.querySelector("form").reset();
+document.getElementById('selectedBox').classList.add('hidden');
+selectedPackage = "";
+})
+.catch(() => {
+showStatus("❌ Error sending booking. Try again.", false);
+});
 }
 
-function email(){
-let d=parse(document.getElementById('input').value);
-document.getElementById('out').textContent=
-`Hey ${d.name},
-
-Your shoot is confirmed.
-
-${d.package}
-${d.time}
-${d.location}
-
-– DTS`;
-}
-
-function whatsapp(){
-let d=parse(document.getElementById('input').value);
-document.getElementById('out').textContent=
-`Hey ${d.name}! Your shoot is confirmed 🔥
-
-${d.location} at ${d.time}`;
-}
-
-function summary(){
-let d=parse(document.getElementById('input').value);
-document.getElementById('out').textContent=
-JSON.stringify(d,null,2);
-}
 </script>
 
 </body>
